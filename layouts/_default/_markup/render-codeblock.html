@@ -13,14 +13,11 @@
         {{ highlight .Inner $lang }}
     </div>
 </div>
-{{ else if (findRE `^\[file=.*` .Inner) }}
-    {{ $matches := findRESubmatch `^\[(file=)(.*)\]` .Inner }}
+{{  else if isset .Attributes "file" }}
 <div class="highlight highlight-file file">
     <div class="code_block file">
-        <div class="top"><i class="file"></i> {{ range $matches }}
-            {{ index . 2 }}
-            {{ end }}</div>
-        {{ highlight (replaceRE `\A.*\n` "" .Inner) $lang }}
+        <div class="top"><i class="file"></i> {{ .Attributes.file }}</div>
+        {{ highlight .Inner $lang }}
     </div>
 </div>
 {{ else }}
