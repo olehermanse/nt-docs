@@ -1,0 +1,17 @@
+{{/* This shortcode provides access to global site params  */}}
+{{- $paramString := .Get 0 -}}
+{{/* split param string into keys by . to get access to nestend parameters value  */}}
+{{- $keys := split $paramString "." -}}
+{{- $value := .Site.Params -}}
+{{- $exists := true -}}
+{{- range $keys -}}
+  {{- if $value -}}
+    {{- $value = index $value . -}}
+  {{- else -}}
+    {{- $exists = false -}}
+  {{- end -}}
+{{- end -}}
+{{- if not $exists -}}
+  {{- errorf "Config shortcode: key '%s' does not exist in site config." $paramString -}}
+{{- end -}}
+{{- $value -}}
