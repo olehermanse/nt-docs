@@ -22,7 +22,23 @@ module.exports = {
         const unpublishedRegex = /^(published:*.+(false)|draft:*.+(true)|hidden:*.+(true))$/m;
 
         if (fileStat.isDirectory()) {
-            const indexFilePath = filename + '/_index.markdown';
+            const possibleIndexFiles = ['_index.markdown', '_index.md', '_index.html'];
+            let indexFilePath = null;
+
+            for (const indexFile of possibleIndexFiles) {
+                const testPath = filename + '/' + indexFile;
+                if (fs.existsSync(testPath)) {
+                    indexFilePath = testPath;
+                    break;
+                }
+            }
+
+            // If no index file found, log and return
+            if (!indexFilePath) {
+                console.log(`Directory index file not found in '${filename}'. Tried: ${possibleIndexFiles.join(', ')}`);
+                return;
+            }
+
             try {
                 content = fs.readFileSync(indexFilePath, "utf8");
             } catch (e) {
