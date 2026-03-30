@@ -38,9 +38,7 @@ jobs:
           This PR updates the version of Hugo used in the Containerfile to ${{ steps.fetch_hugo_version.outputs.version }}.
         reviewers: |
           olehermanse
-          nickanderson
           aleksandrychev
-          craigcomstock
 
         branch: hugo-version-update-${{ steps.fetch_hugo_version.outputs.version }}
         sign-commits: true
